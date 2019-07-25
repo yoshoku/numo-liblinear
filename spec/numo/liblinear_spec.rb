@@ -14,9 +14,8 @@ RSpec.describe Numo::Liblinear do
   let(:logit_param) { { solver_type: Numo::Liblinear::SolverType::L2R_LR_DUAL, C: 10 } }
   let(:logit_model) { Numo::Liblinear.train(x, y, logit_param) }
 
-  it 'has a version number', aggregate_failures: true do
+  it 'has a version number' do
     expect(Numo::Liblinear::VERSION).not_to be nil
-    expect(Numo::Liblinear::LIBLINEAR_VERSION).not_to be nil
   end
 
   it 'has some constant values', aggregate_failures: true do
