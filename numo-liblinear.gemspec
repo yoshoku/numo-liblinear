@@ -14,8 +14,9 @@ Gem::Specification.new do |spec|
     Numo::Liblinear is a Ruby gem binding to the LIBLINEAR library.
     Numo::Liblinear makes to use the LIBLINEAR functions with dataset represented by Numo::NArray.
   MSG
-  spec.description = <<~MSG
+  spec.description   = <<~MSG
     Numo::Liblinear is a Ruby gem binding to the LIBLINEAR library.
+    LIBLINEAR is one of the famous libraries for large-scale regularized linear classification and regression.
     Numo::Liblinear makes to use the LIBLINEAR functions with dataset represented by Numo::NArray.
   MSG
   spec.homepage      = 'https://github.com/yoshoku/numo-liblinear'

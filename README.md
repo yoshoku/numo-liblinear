@@ -1,8 +1,7 @@
 # Numo::Liblinear
 
 Numo::Liblinear is a Ruby gem binding to the [LIBLINEAR](https://www.csie.ntu.edu.tw/~cjlin/liblinear/) library.
-LIBLINEAR is one of the famous libraries that
-implemented large-scale regularized linear classification and regression.
+LIBLINEAR is one of the famous libraries for large-scale regularized linear classification and regression.
 Numo::Liblinear makes to use the LIBLINEAR functions with
 dataset represented by [Numo::NArray](https://github.com/ruby-numo/numo-narray).
 
