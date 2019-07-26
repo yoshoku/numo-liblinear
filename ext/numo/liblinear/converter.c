@@ -1,4 +1,3 @@
-
 #include "converter.h"
 
 VALUE int_vec_to_nary(int* const arr, int const size)
@@ -100,63 +99,4 @@ double** nary_to_dbl_mat(VALUE mat_val)
   }
 
   return mat;
-}
-
-VALUE feature_nodes_to_nary(struct feature_node** const support_vecs, const int n_support_vecs)
-{
-  int i, j;
-  int n_dimensions = 0;
-  size_t shape[2] = { n_support_vecs, 1 };
-  VALUE v;
-  double* vp;
-
-  for (i = 0; i < n_support_vecs; i++) {
-    for (j = 0; support_vecs[i][j].index != -1; j++) {
-      if (n_dimensions < support_vecs[i][j].index) {
-        n_dimensions = support_vecs[i][j].index;
-      }
-    }
-  }
-
-  shape[1] = n_dimensions;
-  v = rb_narray_new(numo_cDFloat, 2, shape);
-  vp = (double*)na_get_pointer_for_write(v);
-  memset(vp, 0, n_support_vecs * n_dimensions * sizeof(double));
-
-  for (i = 0; i < n_support_vecs; i++) {
-    for (j = 0; support_vecs[i][j].index != -1; j++) {
-      vp[i * n_dimensions + support_vecs[i][j].index - 1] = support_vecs[i][j].value;
-    }
-  }
-
-  return v;
-}
-
-struct feature_node** nary_to_feature_nodes(VALUE model_val)
-{
-  int i, j;
-  int n_rows, n_cols;
-  narray_t* model_nary;
-  double* model_pt;
-  struct feature_node** support_vecs;
-
-  if (model_val == Qnil) return NULL;
-
-  GetNArray(model_val, model_nary);
-  n_rows = (int)NA_SHAPE(model_nary)[0];
-  n_cols = (int)NA_SHAPE(model_nary)[1];
-
-  model_pt = (double*)na_get_pointer_for_read(model_val);
-  support_vecs = ALLOC_N(struct feature_node*, n_rows);
-  for (i = 0; i < n_rows; i++) {
-    support_vecs[i] = ALLOC_N(struct feature_node, n_cols + 1);
-    for (j = 0; j < n_cols; j++) {
-      support_vecs[i][j].index = j + 1;
-      support_vecs[i][j].value = model_pt[i * n_cols + j];
-    }
-    support_vecs[i][n_cols].index = -1;
-    support_vecs[i][n_cols].value = 0.0;
-  }
-
-  return support_vecs;
 }

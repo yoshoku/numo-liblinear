@@ -1,8 +1,7 @@
-#ifndef NUMO_LIBSVM_CONVERTER_H
-#define NUMO_LIBSVM_CONVERTER_H 1
+#ifndef NUMO_LIBLINEAR_CONVERTER_H
+#define NUMO_LIBLINEAR_CONVERTER_H 1
 
 #include <string.h>
-#include <linear.h>
 #include <ruby.h>
 #include <numo/narray.h>
 #include <numo/template.h>
@@ -13,7 +12,5 @@ VALUE dbl_vec_to_nary(double* const arr, int const size);
 double* nary_to_dbl_vec(VALUE vec_val);
 VALUE dbl_mat_to_nary(double** const mat, int const n_rows, int const n_cols);
 double** nary_to_dbl_mat(VALUE mat_val);
-VALUE feature_nodes_to_nary(struct feature_node** const support_vecs, const int n_support_vecs);
-struct feature_node** nary_to_svm_nodes(VALUE model_val);
 
-#endif /* NUMO_LIBSVM_CONVERTER_H */
+#endif /* NUMO_LIBLINEAR_CONVERTER_H */
