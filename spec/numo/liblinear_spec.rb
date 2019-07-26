@@ -9,9 +9,9 @@ RSpec.describe Numo::Liblinear do
   let(:classes) { Numo::Int32[*y.to_a.uniq] }
   let(:n_classes) { classes.size }
   let(:n_samples) { x_test.shape[0] }
-  let(:svc_param) { { solver_type: Numo::Liblinear::SolverType::L2R_L2LOSS_SVC_DUAL, C: 10 } }
+  let(:svc_param) { { solver_type: Numo::Liblinear::SolverType::L2R_L2LOSS_SVC_DUAL, C: 1 } }
   let(:svc_model) { Numo::Liblinear.train(x, y, svc_param) }
-  let(:logit_param) { { solver_type: Numo::Liblinear::SolverType::L2R_LR_DUAL, C: 10 } }
+  let(:logit_param) { { solver_type: Numo::Liblinear::SolverType::L2R_LR_DUAL, C: 1 } }
   let(:logit_model) { Numo::Liblinear.train(x, y, logit_param) }
 
   it 'has a version number' do
@@ -30,6 +30,12 @@ RSpec.describe Numo::Liblinear do
     expect(Numo::Liblinear::SolverType::L2R_L2LOSS_SVR).to eq(11)
     expect(Numo::Liblinear::SolverType::L2R_L2LOSS_SVR_DUAL).to eq(12)
     expect(Numo::Liblinear::SolverType::L2R_L1LOSS_SVR_DUAL).to eq(13)
+  end
+
+  it 'performs 5-cross validation with C-SVC' do
+    predicted = Numo::Liblinear.cv(x, y, svc_param, 5)
+    accuracy = predicted.eq(y).count.fdiv(y.size)
+    expect(accuracy).to be_within(0.05).of(0.9)
   end
 
   it 'calculates decision function with C-SVC', aggregate_failures: true do

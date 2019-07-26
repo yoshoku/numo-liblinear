@@ -15,7 +15,7 @@ void print_null(const char *s) {}
  *
  * @param x [Numo::DFloat] (shape: [n_samples, n_features]) The samples to be used for training the model.
  * @param y [Numo::DFloat] (shape: [n_samples]) The labels or target values for samples.
- * @param param [Hash] The parameters of an model.
+ * @param param [Hash] The parameters of a model.
  * @return [Hash] The model obtained from the training procedure.
  */
 static
@@ -86,6 +86,91 @@ VALUE numo_liblinear_train(VALUE self, VALUE x_val, VALUE y_val, VALUE param_has
 
   return model_hash;
 }
+
+/**
+ * Perform cross validation under given parameters. The given samples are separated to n_fols folds.
+ * The predicted labels or values in the validation process are returned.
+ *
+ * @overload cv(x, y, param, n_folds) -> Numo::DFloat
+ *
+ * @param x [Numo::DFloat] (shape: [n_samples, n_features]) The samples to be used for training the model.
+ * @param y [Numo::DFloat] (shape: [n_samples]) The labels or target values for samples.
+ * @param param [Hash] The parameters of a model.
+ * @param n_folds [Integer] The number of folds.
+ * @return [Numo::DFloat] (shape: [n_samples]) The predicted class label or value of each sample.
+ */
+static
+VALUE numo_liblinear_cross_validation(VALUE self, VALUE x_val, VALUE y_val, VALUE param_hash, VALUE nr_folds)
+{
+  const int n_folds = NUM2INT(nr_folds);
+  struct problem* problem;
+  struct parameter* param;
+  narray_t* x_nary;
+  double* x_pt;
+  double* y_pt;
+  int i, j;
+  int n_samples;
+  int n_features;
+  size_t t_shape[1];
+  VALUE t_val;
+  double* t_pt;
+
+  /* Obtain C data structures. */
+  if (CLASS_OF(x_val) != numo_cDFloat) {
+    x_val = rb_funcall(numo_cDFloat, rb_intern("cast"), 1, x_val);
+  }
+  if (CLASS_OF(y_val) != numo_cDFloat) {
+    y_val = rb_funcall(numo_cDFloat, rb_intern("cast"), 1, y_val);
+  }
+  if (!RTEST(nary_check_contiguous(x_val))) {
+    x_val = nary_dup(x_val);
+  }
+  if (!RTEST(nary_check_contiguous(y_val))) {
+    y_val = nary_dup(y_val);
+  }
+  GetNArray(x_val, x_nary);
+  param = rb_hash_to_parameter(param_hash);
+
+  /* Initialize some variables. */
+  n_samples = (int)NA_SHAPE(x_nary)[0];
+  n_features = (int)NA_SHAPE(x_nary)[1];
+  x_pt = (double*)na_get_pointer_for_read(x_val);
+  y_pt = (double*)na_get_pointer_for_read(y_val);
+
+  /* Prepare LIBLINEAR problem. */
+  problem = ALLOC(struct problem);
+  problem->bias = -1;
+  problem->n = n_features;
+  problem->l = n_samples;
+  problem->x = ALLOC_N(struct feature_node*, n_samples);
+  problem->y = ALLOC_N(double, n_samples);
+  for (i = 0; i < n_samples; i++) {
+    problem->x[i] = ALLOC_N(struct feature_node, n_features + 1);
+    for (j = 0; j < n_features; j++) {
+      problem->x[i][j].index = j + 1;
+      problem->x[i][j].value = x_pt[i * n_features + j];
+    }
+    problem->x[i][n_features].index = -1;
+    problem->x[i][n_features].value = 0.0;
+    problem->y[i] = y_pt[i];
+  }
+
+  /* Perform cross validation. */
+  t_shape[0] = n_samples;
+  t_val = rb_narray_new(numo_cDFloat, 1, t_shape);
+  t_pt = (double*)na_get_pointer_for_write(t_val);
+  set_print_string_function(print_null);
+  cross_validation(problem, param, n_folds, t_pt);
+
+  for (i = 0; i < n_samples; xfree(problem->x[i++]));
+  xfree(problem->x);
+  xfree(problem->y);
+  xfree(problem);
+  xfree_parameter(param);
+
+  return t_val;
+}
+
 
 /**
  * Predict class labels or values for given samples.
@@ -392,6 +477,7 @@ void Init_liblinearext()
   mLiblinear = rb_define_module_under(mNumo, "Liblinear");
 
   rb_define_module_function(mLiblinear, "train", numo_liblinear_train, 3);
+  rb_define_module_function(mLiblinear, "cv", numo_liblinear_cross_validation, 4);
   rb_define_module_function(mLiblinear, "predict", numo_liblinear_predict, 3);
   rb_define_module_function(mLiblinear, "decision_function", numo_liblinear_decision_function, 3);
   rb_define_module_function(mLiblinear, "predict_proba", numo_liblinear_predict_proba, 3);
