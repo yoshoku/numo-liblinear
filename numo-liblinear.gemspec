@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
-  spec.extensions    = ['ext/numo/libsvm/extconf.rb']
+  spec.extensions    = ['ext/numo/liblinear/extconf.rb']
 
   spec.add_runtime_dependency 'numo-narray', '~> 0.9.1'
   spec.add_development_dependency 'bundler', '~> 2.0'
