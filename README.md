@@ -39,7 +39,117 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Preparation
+
+In the following examples, we use [red-datasets](https://github.com/red-data-tools/red-datasets) to download dataset.
+
+    $ gem install red-datasets-numo-narray
+
+### Example 1. Cross-validation
+
+We conduct cross validation of the Support Vector Classifier on [Iris dataset](https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass.html#iris).
+
+```ruby
+require 'numo/narray'
+require 'numo/liblinear'
+require 'datasets-numo-narray'
+
+# Download Iris dataset.
+puts 'Download dataset.'
+iris = Datasets::LIBSVM.new('iris').to_narray
+x = iris[true, 1..-1]
+y = iris[true, 0]
+
+# Define parameters of L2-regularized L2-loss support vector classification.
+param = {
+  solver_type: Numo::Liblinear::SolverType::L2R_L2LOSS_SVC_DUAL,
+  C: 1
+}
+
+# Perform 5-cross validation.
+puts 'Perform cross validation.'
+n_folds = 5
+predicted = Numo::Liblinear::cv(x, y, param, n_folds)
+
+# Print mean accuracy.
+mean_accuracy = y.eq(predicted).count.fdiv(y.size)
+puts "Accuracy: %.1f %%" % (100 * mean_accuracy)
+```
+
+Execution result in the following:
+
+```sh
+Download dataset.
+Perform cross validation.
+Accuracy: 87.3 %
+```
+
+### Example 2. Pendigits dataset classification
+
+We first train the Logistic Regression using training [pendigits dataset](https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass.html#pendigits).
+
+```ruby
+require 'numo/liblinear'
+require 'datasets-numo-narray'
+
+# Download pendigits training dataset.
+puts 'Download dataset.'
+pendigits = Datasets::LIBSVM.new('pendigits').to_narray
+x = pendigits[true, 1..-1]
+y = pendigits[true, 0]
+
+# Define parameters of L2-regularized logistic regression.
+param = {
+  solver_type: Numo::Liblinear::SolverType::L2R_LR_DUAL,
+  C: 1
+}
+
+# Perform training procedure.
+puts 'Train logistic regression.'
+model = Numo::Liblinear.train(x, y, param)
+
+# Save parameters and trained model.
+puts 'Save parameters and model with Marshal'
+File.open('pendigits.dat', 'wb') { |f| f.write(Marshal.dump([param, model])) }
+```
+
+```sh
+Download dataset.
+Train logistic regression.
+Save parameters and model with Marshal
+```
+
+We then predict labels of testing dataset, and evaluate the classifier.
+
+```ruby
+require 'numo/liblinear'
+require 'datasets-numo-narray'
+
+# Download pendigits testing dataset.
+puts 'Download dataset.'
+pendigits_test = Datasets::LIBSVM.new('pendigits', note: 'testing').to_narray
+x = pendigits_test[true, 1..-1]
+y = pendigits_test[true, 0]
+
+# Load parameter and model.
+puts 'Load parameter and model.'
+param, model = Marshal.load(File.binread('pendigits.dat'))
+
+# Predict labels.
+puts 'Predict labels.'
+predicted = Numo::Liblinear.predict(x, param, model)
+
+# Evaluate classification results.
+mean_accuracy = y.eq(predicted).count.fdiv(y.size)
+puts "Accuracy: %.1f %%" % (100 * mean_accuracy)
+```
+
+```sh
+Download dataset.
+Load parameter and model.
+Predict labels.
+Accuracy: 87.9 %
+```
 
 ## Development
 
