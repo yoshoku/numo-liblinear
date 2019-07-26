@@ -13,7 +13,7 @@ void rb_init_solver_type_module()
   rb_define_const(mSolverType, "L2R_LR", INT2NUM(L2R_LR));
   /* L2-regularized L2-loss support vector classification (dual) */
   rb_define_const(mSolverType, "L2R_L2LOSS_SVC_DUAL", INT2NUM(L2R_L2LOSS_SVC_DUAL));
-  /* L2-regularized L1-loss support vector classification (dual) */
+  /* L2-regularized L2-loss support vector classification (primal) */
   rb_define_const(mSolverType, "L2R_L2LOSS_SVC", INT2NUM(L2R_L2LOSS_SVC));
   /* L2-regularized L1-loss support vector classification (dual) */
   rb_define_const(mSolverType, "L2R_L1LOSS_SVC_DUAL", INT2NUM(L2R_L1LOSS_SVC_DUAL));
