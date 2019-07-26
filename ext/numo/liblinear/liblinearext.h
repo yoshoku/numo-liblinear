@@ -11,6 +11,7 @@
 #include "converter.h"
 #include "parameter.h"
 #include "model.h"
+#include "problem.h"
 #include "solver_type.h"
 
 #endif /* NUMO_LIBLINEAREXT_H */
