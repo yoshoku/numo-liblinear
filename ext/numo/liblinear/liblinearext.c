@@ -24,6 +24,8 @@ VALUE numo_liblinear_train(VALUE self, VALUE x_val, VALUE y_val, VALUE param_has
   struct problem* problem;
   struct parameter* param;
   struct model* model;
+  narray_t* x_nary;
+  narray_t* y_nary;
   char* err_msg;
   VALUE model_hash;
 
@@ -38,6 +40,21 @@ VALUE numo_liblinear_train(VALUE self, VALUE x_val, VALUE y_val, VALUE param_has
   }
   if (!RTEST(nary_check_contiguous(y_val))) {
     y_val = nary_dup(y_val);
+  }
+
+  GetNArray(x_val, x_nary);
+  GetNArray(y_val, y_nary);
+  if (NA_NDIM(x_nary) != 2) {
+    rb_raise(rb_eArgError, "Expect samples to be 2-D array.");
+    return Qnil;
+  }
+  if (NA_NDIM(y_nary) != 1) {
+    rb_raise(rb_eArgError, "Expect label or target values to be 1-D arrray.");
+    return Qnil;
+  }
+  if (NA_SHAPE(x_nary)[0] != NA_SHAPE(y_nary)[0]) {
+    rb_raise(rb_eArgError, "Expect to have the same number of samples for samples and labels.");
+    return Qnil;
   }
 
   param = rb_hash_to_parameter(param_hash);
@@ -81,6 +98,8 @@ VALUE numo_liblinear_cross_validation(VALUE self, VALUE x_val, VALUE y_val, VALU
   size_t t_shape[1];
   VALUE t_val;
   double* t_pt;
+  narray_t* x_nary;
+  narray_t* y_nary;
   char* err_msg;
   struct problem* problem;
   struct parameter* param;
@@ -96,6 +115,21 @@ VALUE numo_liblinear_cross_validation(VALUE self, VALUE x_val, VALUE y_val, VALU
   }
   if (!RTEST(nary_check_contiguous(y_val))) {
     y_val = nary_dup(y_val);
+  }
+
+  GetNArray(x_val, x_nary);
+  GetNArray(y_val, y_nary);
+  if (NA_NDIM(x_nary) != 2) {
+    rb_raise(rb_eArgError, "Expect samples to be 2-D array.");
+    return Qnil;
+  }
+  if (NA_NDIM(y_nary) != 1) {
+    rb_raise(rb_eArgError, "Expect label or target values to be 1-D arrray.");
+    return Qnil;
+  }
+  if (NA_SHAPE(x_nary)[0] != NA_SHAPE(y_nary)[0]) {
+    rb_raise(rb_eArgError, "Expect to have the same number of samples for samples and labels.");
+    return Qnil;
   }
 
   param = rb_hash_to_parameter(param_hash);
@@ -155,7 +189,13 @@ VALUE numo_liblinear_predict(VALUE self, VALUE x_val, VALUE param_hash, VALUE mo
   if (!RTEST(nary_check_contiguous(x_val))) {
     x_val = nary_dup(x_val);
   }
+
   GetNArray(x_val, x_nary);
+  if (NA_NDIM(x_nary) != 2) {
+    rb_raise(rb_eArgError, "Expect samples to be 2-D array.");
+    return Qnil;
+  }
+
   param = rb_hash_to_parameter(param_hash);
   model = rb_hash_to_model(model_hash);
   model->param = *param;
@@ -221,7 +261,13 @@ VALUE numo_liblinear_decision_function(VALUE self, VALUE x_val, VALUE param_hash
   if (!RTEST(nary_check_contiguous(x_val))) {
     x_val = nary_dup(x_val);
   }
+
   GetNArray(x_val, x_nary);
+  if (NA_NDIM(x_nary) != 2) {
+    rb_raise(rb_eArgError, "Expect samples to be 2-D array.");
+    return Qnil;
+  }
+
   param = rb_hash_to_parameter(param_hash);
   model = rb_hash_to_model(model_hash);
   model->param = *param;
@@ -310,6 +356,12 @@ VALUE numo_liblinear_predict_proba(VALUE self, VALUE x_val, VALUE param_hash, VA
   int n_samples;
   int n_features;
 
+  GetNArray(x_val, x_nary);
+  if (NA_NDIM(x_nary) != 2) {
+    rb_raise(rb_eArgError, "Expect samples to be 2-D array.");
+    return Qnil;
+  }
+
   param = rb_hash_to_parameter(param_hash);
   model = rb_hash_to_model(model_hash);
   model->param = *param;
@@ -322,7 +374,6 @@ VALUE numo_liblinear_predict_proba(VALUE self, VALUE x_val, VALUE param_hash, VA
     if (!RTEST(nary_check_contiguous(x_val))) {
       x_val = nary_dup(x_val);
     }
-    GetNArray(x_val, x_nary);
 
     /* Initialize some variables. */
     n_samples = (int)NA_SHAPE(x_nary)[0];
