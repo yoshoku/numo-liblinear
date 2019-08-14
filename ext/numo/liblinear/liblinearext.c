@@ -24,6 +24,7 @@ VALUE numo_liblinear_train(VALUE self, VALUE x_val, VALUE y_val, VALUE param_has
   struct problem* problem;
   struct parameter* param;
   struct model* model;
+  char* err_msg;
   VALUE model_hash;
 
   if (CLASS_OF(x_val) != numo_cDFloat) {
@@ -41,6 +42,14 @@ VALUE numo_liblinear_train(VALUE self, VALUE x_val, VALUE y_val, VALUE param_has
 
   param = rb_hash_to_parameter(param_hash);
   problem = dataset_to_problem(x_val, y_val);
+
+  err_msg = check_parameter(problem, param);
+  if (err_msg) {
+    xfree_problem(problem);
+    xfree_parameter(param);
+    rb_raise(rb_eArgError, "Invalid LIBLINEAR parameter is given: %s", err_msg);
+    return Qnil;
+  }
 
   set_print_string_function(print_null);
   model = train(problem, param);
@@ -72,6 +81,7 @@ VALUE numo_liblinear_cross_validation(VALUE self, VALUE x_val, VALUE y_val, VALU
   size_t t_shape[1];
   VALUE t_val;
   double* t_pt;
+  char* err_msg;
   struct problem* problem;
   struct parameter* param;
 
@@ -90,6 +100,14 @@ VALUE numo_liblinear_cross_validation(VALUE self, VALUE x_val, VALUE y_val, VALU
 
   param = rb_hash_to_parameter(param_hash);
   problem = dataset_to_problem(x_val, y_val);
+
+  err_msg = check_parameter(problem, param);
+  if (err_msg) {
+    xfree_problem(problem);
+    xfree_parameter(param);
+    rb_raise(rb_eArgError, "Invalid LIBLINEAR parameter is given: %s", err_msg);
+    return Qnil;
+  }
 
   t_shape[0] = problem->l;
   t_val = rb_narray_new(numo_cDFloat, 1, t_shape);
