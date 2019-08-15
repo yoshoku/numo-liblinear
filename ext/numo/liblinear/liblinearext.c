@@ -16,6 +16,9 @@ void print_null(const char *s) {}
  *   @param y [Numo::DFloat] (shape: [n_samples]) The labels or target values for samples.
  *   @param param [Hash] The parameters of a model.
  *
+ * @raise [ArgumentError] If the sample array is not 2-dimensional, the label array is not 1-dimensional,
+ *   the sample array and label array do not have the same number of samples, or
+ *   the hyperparameter has an invalid value, this error is raised.
  * @return [Hash] The model obtained from the training procedure.
  */
 static
@@ -89,6 +92,9 @@ VALUE numo_liblinear_train(VALUE self, VALUE x_val, VALUE y_val, VALUE param_has
  *   @param param [Hash] The parameters of a model.
  *   @param n_folds [Integer] The number of folds.
  *
+ * @raise [ArgumentError] If the sample array is not 2-dimensional, the label array is not 1-dimensional,
+ *   the sample array and label array do not have the same number of samples, or
+ *   the hyperparameter has an invalid value, this error is raised.
  * @return [Numo::DFloat] (shape: [n_samples]) The predicted class label or value of each sample.
  */
 static
@@ -165,6 +171,7 @@ VALUE numo_liblinear_cross_validation(VALUE self, VALUE x_val, VALUE y_val, VALU
  *   @param param [Hash] The parameters of the trained model.
  *   @param model [Hash] The model obtained from the training procedure.
  *
+ * @raise [ArgumentError] If the sample array is not 2-dimensional, this error is raised.
  * @return [Numo::DFloat] (shape: [n_samples]) The predicted class label or value of each sample.
  */
 static
@@ -235,6 +242,7 @@ VALUE numo_liblinear_predict(VALUE self, VALUE x_val, VALUE param_hash, VALUE mo
  *   @param param [Hash] The parameters of the trained model.
  *   @param model [Hash] The model obtained from the training procedure.
  *
+ * @raise [ArgumentError] If the sample array is not 2-dimensional, this error is raised.
  * @return [Numo::DFloat] (shape: [n_samples, n_classes]) The decision value of each sample.
  */
 static
@@ -338,6 +346,7 @@ VALUE numo_liblinear_decision_function(VALUE self, VALUE x_val, VALUE param_hash
  *   @param param [Hash] The parameters of the trained Logistic Regression model.
  *   @param model [Hash] The model obtained from the training procedure.
  *
+ * @raise [ArgumentError] If the sample array is not 2-dimensional, this error is raised.
  * @return [Numo::DFloat] (shape: [n_samples, n_classes]) Predicted probablity of each class per sample.
  */
 static
@@ -415,6 +424,7 @@ VALUE numo_liblinear_predict_proba(VALUE self, VALUE x_val, VALUE param_hash, VA
  * @overload load_model(filename) -> Array
  *   @param filename [String] The path to a file to load.
  *
+ * @raise [IOError] This error raises when failed to load the model file.
  * @return [Array] Array contains the parameters and model.
  */
 static
@@ -452,6 +462,7 @@ VALUE numo_liblinear_load_model(VALUE self, VALUE filename)
  *   @param param [Hash] The parameters of the trained model.
  *   @param model [Hash] The model obtained from the training procedure.
  *
+ * @raise [IOError] This error raises when failed to save the model file.
  * @return [Boolean] true on success, or false if an error occurs.
  */
 static
