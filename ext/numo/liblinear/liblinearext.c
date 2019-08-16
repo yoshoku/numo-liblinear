@@ -30,6 +30,7 @@ VALUE numo_liblinear_train(VALUE self, VALUE x_val, VALUE y_val, VALUE param_has
   narray_t* x_nary;
   narray_t* y_nary;
   char* err_msg;
+  VALUE random_seed;
   VALUE model_hash;
 
   if (CLASS_OF(x_val) != numo_cDFloat) {
@@ -58,6 +59,11 @@ VALUE numo_liblinear_train(VALUE self, VALUE x_val, VALUE y_val, VALUE param_has
   if (NA_SHAPE(x_nary)[0] != NA_SHAPE(y_nary)[0]) {
     rb_raise(rb_eArgError, "Expect to have the same number of samples for samples and labels.");
     return Qnil;
+  }
+
+  random_seed = rb_hash_aref(param_hash, ID2SYM(rb_intern("random_seed")));
+  if (!NIL_P(random_seed)) {
+    srand(NUM2UINT(random_seed));
   }
 
   param = rb_hash_to_parameter(param_hash);
@@ -107,6 +113,7 @@ VALUE numo_liblinear_cross_validation(VALUE self, VALUE x_val, VALUE y_val, VALU
   narray_t* x_nary;
   narray_t* y_nary;
   char* err_msg;
+  VALUE random_seed;
   struct problem* problem;
   struct parameter* param;
 
@@ -136,6 +143,11 @@ VALUE numo_liblinear_cross_validation(VALUE self, VALUE x_val, VALUE y_val, VALU
   if (NA_SHAPE(x_nary)[0] != NA_SHAPE(y_nary)[0]) {
     rb_raise(rb_eArgError, "Expect to have the same number of samples for samples and labels.");
     return Qnil;
+  }
+
+  random_seed = rb_hash_aref(param_hash, ID2SYM(rb_intern("random_seed")));
+  if (!NIL_P(random_seed)) {
+    srand(NUM2UINT(random_seed));
   }
 
   param = rb_hash_to_parameter(param_hash);
