@@ -16,6 +16,28 @@ void print_null(const char *s) {}
  *   @param y [Numo::DFloat] (shape: [n_samples]) The labels or target values for samples.
  *   @param param [Hash] The parameters of a model.
  *
+ * @example
+ *   require 'numo/liblinear'
+ *
+ *   # Prepare training dataset.
+ *   x = Numo::DFloat[[-0.8, 1.0], [-0.5, 0.8], [0.9, -0.8], [0.8, -0.7]]
+ *   y = Numo::Int32[-1, -1, 1, 1]
+ *
+ *   # Train L2-regularized L2-loss support vector classifier.
+ *   param = {
+ *     solver_type: Numo::Liblinear::SolverType::L2R_L2LOSS_SVC_DUAL,
+ *     C: 0.1,
+ *     random_seed: 1
+ *   }
+ *   model = Numo::Liblinear.train(x, y, param)
+ *
+ *   # Predict labels of test data.
+ *   x_test = Numo::DFloat[[-0.7, 0.9], [0.5, -0.4]]
+ *   result = Numo::Liblinear.predict(x_test, param, model)
+ *   p result
+ *   # Numo::DFloat#shape=[2]
+ *   # [-1, 1]
+ *
  * @raise [ArgumentError] If the sample array is not 2-dimensional, the label array is not 1-dimensional,
  *   the sample array and label array do not have the same number of samples, or
  *   the hyperparameter has an invalid value, this error is raised.
