@@ -100,4 +100,82 @@ RSpec.describe Numo::Liblinear do
       expect(r2_score(y, pr)).to be >= 0.1
     end
   end
+
+  describe 'errors' do
+    let(:dataset) { Marshal.load(File.read(__dir__ + '/../iris.dat')) }
+    let(:x) { dataset[0] }
+    let(:y) { dataset[1] }
+    let(:svm_param) { { solver_type: Numo::Liblinear::SolverType::L2R_L2LOSS_SVC_DUAL, C: 1 } }
+    let(:svm_model) { Numo::Liblinear.train(x, y, svm_param) }
+
+    describe '#train' do
+      it 'raises ArgumentError when given non two-dimensional array as sample array' do
+        expect { described_class.train(Numo::DFloat.new(3, 2, 2).rand, Numo::DFloat.new(3).rand, svm_param) }.to raise_error(ArgumentError, 'Expect samples to be 2-D array.')
+      end
+
+      it 'raises ArgumentError when given non one-dimensional array as label array' do
+        expect { described_class.train(Numo::DFloat.new(3, 2).rand, Numo::DFloat.new(3, 2).rand, svm_param) }.to raise_error(ArgumentError, 'Expect label or target values to be 1-D arrray.')
+      end
+
+      it 'raises ArgumentError when the number of smaples of sample array and label array are different' do
+        expect { described_class.train(Numo::DFloat.new(5, 2).rand, Numo::DFloat.new(3).rand, svm_param) }.to raise_error(ArgumentError, 'Expect to have the same number of samples for samples and labels.')
+        expect { described_class.train(Numo::DFloat.new(3, 2).rand, Numo::DFloat.new(5).rand, svm_param) }.to raise_error(ArgumentError, 'Expect to have the same number of samples for samples and labels.')
+      end
+
+      it 'raises ArgumentError when given invalid parameter value for libsvm' do
+        svm_param[:C] = -100
+        expect { described_class.train(Numo::DFloat.new(3, 2).rand, Numo::DFloat.new(3).rand, svm_param) }.to raise_error(ArgumentError, 'Invalid LIBLINEAR parameter is given: C <= 0')
+      end
+    end
+
+    describe '#cv' do
+      it 'raises ArgumentError when given non two-dimensional array as sample array' do
+        expect { described_class.cv(Numo::DFloat.new(3, 2, 2).rand, Numo::DFloat.new(3).rand, svm_param, 5) }.to raise_error(ArgumentError, 'Expect samples to be 2-D array.')
+      end
+
+      it 'raises ArgumentError when given non one-dimensional array as label array' do
+        expect { described_class.cv(Numo::DFloat.new(3, 2).rand, Numo::DFloat.new(3, 2).rand, svm_param, 5) }.to raise_error(ArgumentError, 'Expect label or target values to be 1-D arrray.')
+      end
+
+      it 'raises ArgumentError when the number of smaples of sample array and label array are different' do
+        expect { described_class.cv(Numo::DFloat.new(5, 2).rand, Numo::DFloat.new(3).rand, svm_param, 5) }.to raise_error(ArgumentError, 'Expect to have the same number of samples for samples and labels.')
+        expect { described_class.cv(Numo::DFloat.new(3, 2).rand, Numo::DFloat.new(5).rand, svm_param, 5) }.to raise_error(ArgumentError, 'Expect to have the same number of samples for samples and labels.')
+      end
+
+      it 'raises ArgumentError when given invalid parameter value for libsvm' do
+        svm_param[:C] = -100
+        expect { described_class.cv(Numo::DFloat.new(3, 2).rand, Numo::DFloat.new(3).rand, svm_param, 5) }.to raise_error(ArgumentError, 'Invalid LIBLINEAR parameter is given: C <= 0')
+      end
+    end
+
+    describe '#predict' do
+      it 'raises ArgumentError when given non two-dimensional array as sample array' do
+        expect { described_class.predict(Numo::DFloat.new(3, 2, 2).rand, svm_param, svm_model) }.to raise_error(ArgumentError, 'Expect samples to be 2-D array.')
+      end
+    end
+
+    describe '#decision_function' do
+      it 'raises ArgumentError when given non two-dimensional array as sample array' do
+        expect { described_class.decision_function(Numo::DFloat.new(3, 2, 2).rand, svm_param, svm_model) }.to raise_error(ArgumentError, 'Expect samples to be 2-D array.')
+      end
+    end
+
+    describe '#predict_proba' do
+      it 'raises ArgumentError when given non two-dimensional array as sample array' do
+        expect { described_class.predict_proba(Numo::DFloat.new(3, 2, 2).rand, svm_param, svm_model) }.to raise_error(ArgumentError, 'Expect samples to be 2-D array.')
+      end
+    end
+
+    describe '#load_model' do
+      it 'raises IOError when failed load file' do
+        expect { described_class.load_model('foo') }.to raise_error(IOError, "Failed to load file 'foo'")
+      end
+    end
+
+    describe '#save_model' do
+      it 'raises IOError when failed save file' do
+        expect { described_class.save_model('', svm_param, svm_model) }.to raise_error(IOError, "Failed to save file ''")
+      end
+    end
+  end
 end
