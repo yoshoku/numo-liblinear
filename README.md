@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/yoshoku/numo-liblinear.svg?branch=master)](https://travis-ci.org/yoshoku/numo-liblinear)
 [![Gem Version](https://badge.fury.io/rb/numo-liblinear.svg)](https://badge.fury.io/rb/numo-liblinear)
 [![BSD 3-Clause License](https://img.shields.io/badge/License-BSD%203--Clause-orange.svg)](https://github.com/yoshoku/numo-liblinear/blob/master/LICENSE.txt)
-[![Documentation](http://img.shields.io/badge/docs-rdoc.info-blue.svg)](https://www.rubydoc.info/gems/numo-liblinear/0.2.0)
+[![Documentation](http://img.shields.io/badge/docs-rdoc.info-blue.svg)](https://www.rubydoc.info/gems/numo-liblinear/0.3.0)
 
 Numo::Liblinear is a Ruby gem binding to the [LIBLINEAR](https://www.csie.ntu.edu.tw/~cjlin/liblinear/) library.
 LIBLINEAR is one of the famous libraries for large-scale regularized linear classification and regression.
@@ -151,6 +151,27 @@ Download dataset.
 Load parameter and model.
 Predict labels.
 Accuracy: 87.9 %
+```
+
+## Note
+The hyperparemter of LIBLINEAR is given with Ruby Hash on Numo::Liblinear.
+The hash key of hyperparameter and its meaning match the struct parameter of LIBLINEAR.
+The parameter is detailed in [LIBLINEAR README](https://github.com/cjlin1/liblinear/blob/master/README)
+
+```ruby
+param = {
+  solver_type:                    # [Integer] Type of Solver
+    Numo::Liblinear::SolverType::L2R_L2LOSS_SVC_DUAL,
+  eps: 0.01,                      # [Float] Stopping criterion
+  C: 1,                           # [Float] Cost of constraints violation.
+  nr_weight: 3,                   # [Integer] Number of weights.
+  weight_label:                   # [Numo::Int32] Labels to add weight.
+    Numo::Int32[0, 1, 2],
+  weight:                         # [Numo::DFloat] Weight values.
+    Numo::DFloat[0.4, 0.4, 0.2],
+  p: 0.1,                         # [Float] Sensitiveness of loss of support vector regression.
+  random_seed: 1                  # [Integer/Nil] Random seed
+}
 ```
 
 ## Development
