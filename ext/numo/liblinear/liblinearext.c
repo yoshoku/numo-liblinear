@@ -53,6 +53,7 @@ VALUE numo_liblinear_train(VALUE self, VALUE x_val, VALUE y_val, VALUE param_has
   narray_t* y_nary;
   char* err_msg;
   VALUE random_seed;
+  VALUE verbose;
   VALUE model_hash;
 
   if (CLASS_OF(x_val) != numo_cDFloat) {
@@ -99,7 +100,11 @@ VALUE numo_liblinear_train(VALUE self, VALUE x_val, VALUE y_val, VALUE param_has
     return Qnil;
   }
 
-  set_print_string_function(print_null);
+  verbose = rb_hash_aref(param_hash, ID2SYM(rb_intern("verbose")));
+  if (verbose != Qtrue) {
+    set_print_string_function(print_null);
+  }
+
   model = train(problem, param);
   model_hash = model_to_rb_hash(model);
   free_and_destroy_model(&model);
@@ -136,6 +141,7 @@ VALUE numo_liblinear_cross_validation(VALUE self, VALUE x_val, VALUE y_val, VALU
   narray_t* y_nary;
   char* err_msg;
   VALUE random_seed;
+  VALUE verbose;
   struct problem* problem;
   struct parameter* param;
 
@@ -187,7 +193,11 @@ VALUE numo_liblinear_cross_validation(VALUE self, VALUE x_val, VALUE y_val, VALU
   t_val = rb_narray_new(numo_cDFloat, 1, t_shape);
   t_pt = (double*)na_get_pointer_for_write(t_val);
 
-  set_print_string_function(print_null);
+  verbose = rb_hash_aref(param_hash, ID2SYM(rb_intern("verbose")));
+  if (verbose != Qtrue) {
+    set_print_string_function(print_null);
+  }
+
   cross_validation(problem, param, n_folds, t_pt);
 
   xfree_problem(problem);
