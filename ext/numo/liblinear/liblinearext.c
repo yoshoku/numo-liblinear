@@ -125,6 +125,28 @@ VALUE numo_liblinear_train(VALUE self, VALUE x_val, VALUE y_val, VALUE param_has
  *   @param param [Hash] The parameters of a model.
  *   @param n_folds [Integer] The number of folds.
  *
+ * @example
+ *   require 'numo/liblinear'
+ *
+ *   # x: samples
+ *   # y: labels
+ *
+ *   # Define parameters of L2-regularized L2-loss support vector classification.
+ *   param = {
+ *     solver_type: Numo::Liblinear::SolverType::L2R_L2LOSS_SVC_DUAL,
+ *     C: 1,
+ *     random_seed: 1,
+ *     verbose: true
+ *   }
+ *
+ *   # Perform 5-cross validation.
+ *   n_folds = 5
+ *   res = Numo::Liblinear::cv(x, y, param, n_folds)
+ *
+ *   # Print mean accuracy.
+ *   mean_accuracy = y.eq(res).count.fdiv(y.size)
+ *   puts "Accuracy: %.1f %%" % (100 * mean_accuracy)
+ *
  * @raise [ArgumentError] If the sample array is not 2-dimensional, the label array is not 1-dimensional,
  *   the sample array and label array do not have the same number of samples, or
  *   the hyperparameter has an invalid value, this error is raised.
