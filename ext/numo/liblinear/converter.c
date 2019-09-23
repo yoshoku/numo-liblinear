@@ -100,3 +100,28 @@ double** nary_to_dbl_mat(VALUE mat_val)
 
   return mat;
 }
+
+struct feature_node* dbl_vec_to_node(double* const arr, int const size)
+{
+  int i, j;
+  int n_nonzero_elements;
+  struct feature_node* node;
+
+  n_nonzero_elements = 0;
+  for (i = 0; i < size; i++) {
+    if (arr[i] != 0.0) n_nonzero_elements++;
+  }
+
+  node = ALLOC_N(struct feature_node, n_nonzero_elements + 1);
+  for (i = 0, j = 0; i < size; i++) {
+    if (arr[i] != 0.0) {
+      node[j].index = i + 1;
+      node[j].value = arr[i];
+      j++;
+    }
+  }
+  node[n_nonzero_elements].index = -1;
+  node[n_nonzero_elements].value = 0.0;
+
+  return node;
+}

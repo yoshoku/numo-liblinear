@@ -282,18 +282,12 @@ VALUE numo_liblinear_predict(VALUE self, VALUE x_val, VALUE param_hash, VALUE mo
   x_pt = (double*)na_get_pointer_for_read(x_val);
 
   /* Predict values. */
-  x_nodes = ALLOC_N(struct feature_node, n_features + 1);
-  x_nodes[n_features].index = -1;
-  x_nodes[n_features].value = 0.0;
   for (i = 0; i < n_samples; i++) {
-    for (j = 0; j < n_features; j++) {
-      x_nodes[j].index = j + 1;
-      x_nodes[j].value = (double)x_pt[i * n_features + j];
-    }
+    x_nodes = dbl_vec_to_node(&x_pt[i * n_features], n_features);
     y_pt[i] = predict(model, x_nodes);
+    xfree(x_nodes);
   }
 
-  xfree(x_nodes);
   xfree_model(model);
   xfree_parameter(param);
 
@@ -365,34 +359,22 @@ VALUE numo_liblinear_decision_function(VALUE self, VALUE x_val, VALUE param_hash
 
   /* Predict values. */
   if (model->nr_class == 2 && model->param.solver_type != MCSVM_CS) {
-    x_nodes = ALLOC_N(struct feature_node, n_features + 1);
-    x_nodes[n_features].index = -1;
-    x_nodes[n_features].value = 0.0;
     for (i = 0; i < n_samples; i++) {
-      for (j = 0; j < n_features; j++) {
-        x_nodes[j].index = j + 1;
-        x_nodes[j].value = (double)x_pt[i * n_features + j];
-      }
+      x_nodes = dbl_vec_to_node(&x_pt[i * n_features], n_features);
       predict_values(model, x_nodes, &y_pt[i]);
+      xfree(x_nodes);
     }
-    xfree(x_nodes);
   } else {
     y_cols = (int)y_shape[1];
     dec_values = ALLOC_N(double, y_cols);
-    x_nodes = ALLOC_N(struct feature_node, n_features + 1);
-    x_nodes[n_features].index = -1;
-    x_nodes[n_features].value = 0.0;
     for (i = 0; i < n_samples; i++) {
-      for (j = 0; j < n_features; j++) {
-        x_nodes[j].index = j + 1;
-        x_nodes[j].value = (double)x_pt[i * n_features + j];
-      }
+      x_nodes = dbl_vec_to_node(&x_pt[i * n_features], n_features);
       predict_values(model, x_nodes, dec_values);
+      xfree(x_nodes);
       for (j = 0; j < y_cols; j++) {
         y_pt[i * y_cols + j] = dec_values[j];
       }
     }
-    xfree(x_nodes);
     xfree(dec_values);
   }
 
@@ -461,20 +443,14 @@ VALUE numo_liblinear_predict_proba(VALUE self, VALUE x_val, VALUE param_hash, VA
 
     /* Predict values. */
     probs = ALLOC_N(double, model->nr_class);
-    x_nodes = ALLOC_N(struct feature_node, n_features + 1);
-    x_nodes[n_features].index = -1;
-    x_nodes[n_features].value = 0.0;
     for (i = 0; i < n_samples; i++) {
-      for (j = 0; j < n_features; j++) {
-        x_nodes[j].index = j + 1;
-        x_nodes[j].value = (double)x_pt[i * n_features + j];
-      }
+      x_nodes = dbl_vec_to_node(&x_pt[i * n_features], n_features);
       predict_probability(model, x_nodes, probs);
+      xfree(x_nodes);
       for (j = 0; j < model->nr_class; j++) {
         y_pt[i * model->nr_class + j] = probs[j];
       }
     }
-    xfree(x_nodes);
     xfree(probs);
   }
 
