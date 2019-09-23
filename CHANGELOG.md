@@ -1,3 +1,6 @@
+# 0.5.0
+- Fix to use LIBLINEAR sparce vector representation for internal processing.
+
 # 0.4.0
 - Add verbose parameter to output learning process messages.
 - Several documentation improvements.
