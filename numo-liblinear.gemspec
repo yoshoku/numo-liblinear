@@ -32,6 +32,12 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.extensions    = ['ext/numo/liblinear/extconf.rb']
 
+  spec.metadata      = {
+    'homepage_uri' => 'https://github.com/yoshoku/numo-liblinear',
+    'source_code_uri' => 'https://github.com/yoshoku/numo-liblinear',
+    'documentation_uri' => 'https://yoshoku.github.io/numo-liblinear/doc/'
+  }
+
   spec.add_runtime_dependency 'numo-narray', '~> 0.9.1'
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'rake', '~> 10.0'
