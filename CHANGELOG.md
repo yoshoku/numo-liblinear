@@ -1,3 +1,8 @@
+# 1.0.0
+## Breaking change
+- For easy installation, Numo::LIBLINEAR bundles LIBLINEAR codes.
+There is no need to install LIBLINEAR in advance to use Numo::LIBLINEAR.
+
 # 0.5.0
 - Fix to use LIBLINEAR sparce vector representation for internal processing.
 
