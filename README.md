@@ -15,15 +15,7 @@ Note: There are other useful Ruby gems binding to LIBLINEAR:
 [liblinear-ruby-swig](https://github.com/tomz/liblinear-ruby-swig) by Tom Zeng.
 
 ## Installation
-Numo::Liblinear does not bundle LIBLINEAR. You need to install LIBLINEAR in advance along your environment.
-
-macOS:
-
-    $ brew install liblinear
-
-Ubuntu:
-
-    $ sudo apt-get install liblinear-dev
+Numo::Liblinear bundles LIBLINEAR. There is no need to install LIBLINEAR in advance.
 
 Add this line to your application's Gemfile:
 
