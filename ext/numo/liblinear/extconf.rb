@@ -26,14 +26,13 @@ if RUBY_PLATFORM =~ /mswin|cygwin|mingw/
   end
 end
 
-unless have_header('linear.h')
-  puts 'linear.h not found.'
-  exit(1)
-end
+$LDFLAGS << ' -lstdc++ '
 
-unless have_library('linear')
-  puts 'liblinear not found.'
-  exit(1)
-end
+$srcs = Dir.glob("#{$srcdir}/*.c").map { |path| File.basename(path) }
+$srcs.concat(%w[linear.cpp tron.cpp daxpy.c ddot.c dnrm2.c dscal.c])
+
+$INCFLAGS << " -I$(srcdir)/liblinear"
+$VPATH << "$(srcdir)/liblinear"
+$VPATH << "$(srcdir)/liblinear/blas"
 
 create_makefile('numo/liblinear/liblinearext')
