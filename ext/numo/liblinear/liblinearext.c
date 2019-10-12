@@ -545,6 +545,9 @@ void Init_liblinearext()
    */
   mLiblinear = rb_define_module_under(mNumo, "Liblinear");
 
+  /* The version of LIBLINEAR used in backgroud library. */
+  rb_define_const(mLiblinear, "LIBLINEAR_VERSION", INT2NUM(LIBLINEAR_VERSION));
+
   rb_define_module_function(mLiblinear, "train", numo_liblinear_train, 3);
   rb_define_module_function(mLiblinear, "cv", numo_liblinear_cross_validation, 4);
   rb_define_module_function(mLiblinear, "predict", numo_liblinear_predict, 3);

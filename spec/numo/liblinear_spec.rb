@@ -4,6 +4,7 @@ RSpec.describe Numo::Liblinear do
   describe 'constant values' do
     it 'has a version number' do
       expect(Numo::Liblinear::VERSION).not_to be nil
+      expect(Numo::Liblinear::LIBLINEAR_VERSION).not_to be nil
     end
 
     it 'has solver type values', aggregate_failures: true do
