@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/yoshoku/numo-liblinear.svg?branch=master)](https://travis-ci.org/yoshoku/numo-liblinear)
 [![Gem Version](https://badge.fury.io/rb/numo-liblinear.svg)](https://badge.fury.io/rb/numo-liblinear)
 [![BSD 3-Clause License](https://img.shields.io/badge/License-BSD%203--Clause-orange.svg)](https://github.com/yoshoku/numo-liblinear/blob/master/LICENSE.txt)
-[![Documentation](http://img.shields.io/badge/docs-rdoc.info-blue.svg)](https://www.rubydoc.info/gems/numo-liblinear/0.4.0)
+[![Documentation](http://img.shields.io/badge/docs-rdoc.info-blue.svg)](https://yoshoku.github.io/numo-liblinear/doc/)
 
 Numo::Liblinear is a Ruby gem binding to the [LIBLINEAR](https://www.csie.ntu.edu.tw/~cjlin/liblinear/) library.
 LIBLINEAR is one of the famous libraries for large-scale regularized linear classification and regression.
