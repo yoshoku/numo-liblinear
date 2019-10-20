@@ -5,36 +5,36 @@ struct parameter* rb_hash_to_parameter(VALUE param_hash)
   VALUE el;
   struct parameter* param = ALLOC(struct parameter);
   el = rb_hash_aref(param_hash, ID2SYM(rb_intern("solver_type")));
-	param->solver_type = !NIL_P(el) ? NUM2INT(el) : L2R_L2LOSS_SVC_DUAL;
+  param->solver_type = !NIL_P(el) ? NUM2INT(el) : L2R_L2LOSS_SVC_DUAL;
   el = rb_hash_aref(param_hash, ID2SYM(rb_intern("eps")));
-	if (!NIL_P(el)) {
+  if (!NIL_P(el)) {
     param->eps = NUM2DBL(el);
-	} else {
-		switch(param->solver_type)
-		{
-			case L2R_LR:
-			case L2R_L2LOSS_SVC:
-				param->eps = 0.01;
-				break;
-			case L2R_L2LOSS_SVR:
-				param->eps = 0.0001;
-				break;
-			case L2R_L2LOSS_SVC_DUAL:
-			case L2R_L1LOSS_SVC_DUAL:
-			case MCSVM_CS:
-			case L2R_LR_DUAL:
-				param->eps = 0.1;
-				break;
-			case L1R_L2LOSS_SVC:
-			case L1R_LR:
-				param->eps = 0.01;
-				break;
-			case L2R_L1LOSS_SVR_DUAL:
-			case L2R_L2LOSS_SVR_DUAL:
-				param->eps = 0.1;
-				break;
+  } else {
+    switch(param->solver_type)
+    {
+      case L2R_LR:
+      case L2R_L2LOSS_SVC:
+        param->eps = 0.01;
+        break;
+      case L2R_L2LOSS_SVR:
+        param->eps = 0.0001;
+        break;
+      case L2R_L2LOSS_SVC_DUAL:
+      case L2R_L1LOSS_SVC_DUAL:
+      case MCSVM_CS:
+      case L2R_LR_DUAL:
+        param->eps = 0.1;
+        break;
+      case L1R_L2LOSS_SVC:
+      case L1R_LR:
+        param->eps = 0.01;
+        break;
+      case L2R_L1LOSS_SVR_DUAL:
+      case L2R_L2LOSS_SVR_DUAL:
+        param->eps = 0.1;
+        break;
     }
-	}
+  }
   el = rb_hash_aref(param_hash, ID2SYM(rb_intern("C")));
   param->C = !NIL_P(el) ? NUM2DBL(el) : 1;
   el = rb_hash_aref(param_hash, ID2SYM(rb_intern("nr_weight")));
