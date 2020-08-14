@@ -31,4 +31,6 @@ void rb_init_solver_type_module()
   rb_define_const(mSolverType, "L2R_L2LOSS_SVR_DUAL", INT2NUM(L2R_L2LOSS_SVR_DUAL));
   /* L2-regularized L1-loss support vector regression (dual) */
   rb_define_const(mSolverType, "L2R_L1LOSS_SVR_DUAL", INT2NUM(L2R_L1LOSS_SVR_DUAL));
+  /* one-class support vector machine (dual) */
+  rb_define_const(mSolverType, "ONECLASS_SVM", INT2NUM(ONECLASS_SVM));
 }

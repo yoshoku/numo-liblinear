@@ -33,6 +33,9 @@ struct parameter* rb_hash_to_parameter(VALUE param_hash)
       case L2R_L2LOSS_SVR_DUAL:
         param->eps = 0.1;
         break;
+      case ONECLASS_SVM:
+        param->eps = 0.01;
+        break;
     }
   }
   el = rb_hash_aref(param_hash, ID2SYM(rb_intern("C")));
@@ -53,6 +56,8 @@ struct parameter* rb_hash_to_parameter(VALUE param_hash)
   }
   el = rb_hash_aref(param_hash, ID2SYM(rb_intern("p")));
   param->p = !NIL_P(el) ? NUM2DBL(el) : 0.1;
+  el = rb_hash_aref(param_hash, ID2SYM(rb_intern("nu")));
+  param->nu = !NIL_P(el) ? NUM2DBL(el) : 0.5;
   el = rb_hash_aref(param_hash, ID2SYM(rb_intern("init_sol")));
   param->init_sol = NULL;
   if (!NIL_P(el)) {
@@ -74,6 +79,7 @@ VALUE parameter_to_rb_hash(struct parameter* const param)
   rb_hash_aset(param_hash, ID2SYM(rb_intern("weight")),
     param->weight ? dbl_vec_to_nary(param->weight, param->nr_weight) : Qnil);
   rb_hash_aset(param_hash, ID2SYM(rb_intern("p")), DBL2NUM(param->p));
+  rb_hash_aset(param_hash, ID2SYM(rb_intern("nu")), DBL2NUM(param->nu));
   rb_hash_aset(param_hash, ID2SYM(rb_intern("init_sol")), Qnil);
   return param_hash;
 }

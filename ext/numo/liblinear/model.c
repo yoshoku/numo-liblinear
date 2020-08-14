@@ -14,6 +14,8 @@ struct model* rb_hash_to_model(VALUE model_hash)
   model->label = nary_to_int_vec(el);
   el = rb_hash_aref(model_hash, ID2SYM(rb_intern("bias")));
   model->bias = NUM2DBL(el);
+  el = rb_hash_aref(model_hash, ID2SYM(rb_intern("rho")));
+  model->rho = NUM2DBL(el);
   return model;
 }
 
@@ -29,6 +31,7 @@ VALUE model_to_rb_hash(struct model* const model)
   rb_hash_aset(model_hash, ID2SYM(rb_intern("label")),
       model->label ? int_vec_to_nary(model->label, model->nr_class) : Qnil);
   rb_hash_aset(model_hash, ID2SYM(rb_intern("bias")), DBL2NUM(model->bias));
+  rb_hash_aset(model_hash, ID2SYM(rb_intern("rho")), DBL2NUM(model->rho));
   return model_hash;
 }
 

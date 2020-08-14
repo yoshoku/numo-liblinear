@@ -19,6 +19,7 @@ RSpec.describe Numo::Liblinear do
       expect(Numo::Liblinear::SolverType::L2R_L2LOSS_SVR).to eq(11)
       expect(Numo::Liblinear::SolverType::L2R_L2LOSS_SVR_DUAL).to eq(12)
       expect(Numo::Liblinear::SolverType::L2R_L1LOSS_SVR_DUAL).to eq(13)
+      expect(Numo::Liblinear::SolverType::ONECLASS_SVM).to eq(21)
     end
   end
 
@@ -114,6 +115,36 @@ RSpec.describe Numo::Liblinear do
     it 'performs 5-cross validation with SVR' do
       pr = Numo::Liblinear.cv(x, y, svr_param, 5)
       expect(r2_score(y, pr)).to be >= 0.1
+    end
+  end
+
+  describe 'outlier detection' do
+    let(:dataset) { Marshal.load(File.read(__dir__ + '/../iris.dat')) }
+    let(:pos_id) { dataset[1].eq(1).where }
+    let(:neg_id) { dataset[1].eq(3).where }
+    let(:x_pos) { dataset[0][pos_id, true] }
+    let(:x_neg) { dataset[0][neg_id, true] }
+    let(:n_pos_samples) { x_pos.shape[0] }
+    let(:n_neg_samples) { x_neg.shape[0] }
+    let(:y_pos) { Numo::Int32.cast([ 1] * n_pos_samples) }
+    let(:y_neg) { Numo::Int32.cast([-1] * n_neg_samples) }
+    let(:oc_svm_param) { { solver_type: Numo::Liblinear::SolverType::ONECLASS_SVM, C: 1, nu: 0.1, random_seed: 1 } }
+    let(:oc_svm_model) { Numo::Liblinear.train(x_pos, y_pos, oc_svm_param) }
+
+    it 'calculates decision function with one-class SVM' do
+      df = Numo::Liblinear.decision_function(x_neg, oc_svm_param, oc_svm_model)
+      expect(df.class).to eq(Numo::DFloat)
+      expect(df.shape[0]).to eq(n_neg_samples)
+      expect(df.shape[1]).to be_nil
+      expect(df.lt(0.0).count).to eq(n_neg_samples)
+    end
+
+    it 'predicts labels with one-class SVM' do
+      pr = Numo::Liblinear.predict(x_neg, oc_svm_param, oc_svm_model)
+      expect(pr.class).to eq(Numo::DFloat)
+      expect(pr.shape[0]).to eq(n_neg_samples)
+      expect(pr.shape[1]).to be_nil
+      expect(accuracy(y_neg, pr)).to be >= 0.9
     end
   end
 
