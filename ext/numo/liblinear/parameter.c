@@ -58,6 +58,7 @@ struct parameter* rb_hash_to_parameter(VALUE param_hash)
   if (!NIL_P(el)) {
     param->init_sol = nary_to_dbl_vec(el);
   }
+  param->regularize_bias = 1;
   return param;
 }
 

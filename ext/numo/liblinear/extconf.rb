@@ -29,7 +29,7 @@ end
 $LDFLAGS << ' -lstdc++ '
 
 $srcs = Dir.glob("#{$srcdir}/*.c").map { |path| File.basename(path) }
-$srcs.concat(%w[linear.cpp tron.cpp daxpy.c ddot.c dnrm2.c dscal.c])
+$srcs.concat(%w[linear.cpp newton.cpp daxpy.c ddot.c dnrm2.c dscal.c])
 
 $INCFLAGS << " -I$(srcdir)/liblinear"
 $VPATH << "$(srcdir)/liblinear"
