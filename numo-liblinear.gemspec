@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   gem_dir = File.expand_path(__dir__) + '/'
   submodule_path = `git submodule --quiet foreach pwd`.split($OUTPUT_RECORD_SEPARATOR).first
   submodule_relative_path = submodule_path.sub gem_dir, ''
-  liblinear_files = %w[linear.cpp linear.h tron.cpp tron.h blas/blas.h blas/blasp.h blas/daxpy.c blas/ddot.c blas/dnrm2.c blas/dscal.c]
+  liblinear_files = %w[linear.cpp linear.h newton.cpp newton.h blas/blas.h blas/blasp.h blas/daxpy.c blas/ddot.c blas/dnrm2.c blas/dscal.c]
   liblinear_files.each { |liblinf| spec.files << "#{submodule_relative_path}/#{liblinf}" }
 
   spec.bindir        = 'exe'

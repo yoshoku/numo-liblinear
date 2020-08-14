@@ -1,3 +1,7 @@
+# 1.1.0
+- Update bundled LIBLINEAR version to 2.4.1.
+- Support one-class SVM implemented on LIBLINEAR ver. 2.4.0.
+
 # 1.0.0
 ## Breaking change
 - For easy installation, Numo::LIBLINEAR bundles LIBLINEAR codes.
