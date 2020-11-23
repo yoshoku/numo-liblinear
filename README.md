@@ -1,6 +1,6 @@
 # Numo::Liblinear
 
-[![Build Status](https://travis-ci.org/yoshoku/numo-liblinear.svg?branch=master)](https://travis-ci.org/yoshoku/numo-liblinear)
+[![Build Status](https://github.com/yoshoku/numo-liblinear/workflows/build/badge.svg)](https://github.com/yoshoku/numo-liblinear/actions?query=workflow%3Abuild)
 [![Gem Version](https://badge.fury.io/rb/numo-liblinear.svg)](https://badge.fury.io/rb/numo-liblinear)
 [![BSD 3-Clause License](https://img.shields.io/badge/License-BSD%203--Clause-orange.svg)](https://github.com/yoshoku/numo-liblinear/blob/master/LICENSE.txt)
 [![Documentation](http://img.shields.io/badge/docs-rdoc.info-blue.svg)](https://yoshoku.github.io/numo-liblinear/doc/)
