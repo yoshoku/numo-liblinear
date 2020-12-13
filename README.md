@@ -2,7 +2,7 @@
 
 [![Build Status](https://github.com/yoshoku/numo-liblinear/workflows/build/badge.svg)](https://github.com/yoshoku/numo-liblinear/actions?query=workflow%3Abuild)
 [![Gem Version](https://badge.fury.io/rb/numo-liblinear.svg)](https://badge.fury.io/rb/numo-liblinear)
-[![BSD 3-Clause License](https://img.shields.io/badge/License-BSD%203--Clause-orange.svg)](https://github.com/yoshoku/numo-liblinear/blob/master/LICENSE.txt)
+[![BSD 3-Clause License](https://img.shields.io/badge/License-BSD%203--Clause-orange.svg)](https://github.com/yoshoku/numo-liblinear/blob/main/LICENSE.txt)
 [![Documentation](http://img.shields.io/badge/docs-rdoc.info-blue.svg)](https://yoshoku.github.io/numo-liblinear/doc/)
 
 Numo::Liblinear is a Ruby gem binding to the [LIBLINEAR](https://www.csie.ntu.edu.tw/~cjlin/liblinear/) library.
@@ -148,7 +148,7 @@ Accuracy: 87.9 %
 ## Note
 The hyperparemter of LIBLINEAR is given with Ruby Hash on Numo::Liblinear.
 The hash key of hyperparameter and its meaning match the struct parameter of LIBLINEAR.
-The parameter is detailed in [LIBLINEAR README](https://github.com/cjlin1/liblinear/blob/master/README)
+The parameter is detailed in [LIBLINEAR README](https://github.com/cjlin1/liblinear/blob/main/README)
 
 ```ruby
 param = {
@@ -176,4 +176,4 @@ This project is intended to be a safe, welcoming space for collaboration, and co
 ## Code of Conduct
 
 Everyone interacting in the Numo::Liblinear project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow
-the [code of conduct](https://github.com/yoshoku/numo-liblinear/blob/master/CODE_OF_CONDUCT.md).
+the [code of conduct](https://github.com/yoshoku/numo-liblinear/blob/main/CODE_OF_CONDUCT.md).
