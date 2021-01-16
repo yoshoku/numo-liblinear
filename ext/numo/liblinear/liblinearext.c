@@ -112,6 +112,9 @@ VALUE numo_liblinear_train(VALUE self, VALUE x_val, VALUE y_val, VALUE param_has
   xfree_problem(problem);
   xfree_parameter(param);
 
+  RB_GC_GUARD(x_val);
+  RB_GC_GUARD(y_val);
+
   return model_hash;
 }
 
@@ -225,6 +228,9 @@ VALUE numo_liblinear_cross_validation(VALUE self, VALUE x_val, VALUE y_val, VALU
   xfree_problem(problem);
   xfree_parameter(param);
 
+  RB_GC_GUARD(x_val);
+  RB_GC_GUARD(y_val);
+
   return t_val;
 }
 
@@ -290,6 +296,8 @@ VALUE numo_liblinear_predict(VALUE self, VALUE x_val, VALUE param_hash, VALUE mo
 
   xfree_model(model);
   xfree_parameter(param);
+
+  RB_GC_GUARD(x_val);
 
   return y_val;
 }
@@ -381,6 +389,8 @@ VALUE numo_liblinear_decision_function(VALUE self, VALUE x_val, VALUE param_hash
   xfree_model(model);
   xfree_parameter(param);
 
+  RB_GC_GUARD(x_val);
+
   return y_val;
 }
 
@@ -456,6 +466,8 @@ VALUE numo_liblinear_predict_proba(VALUE self, VALUE x_val, VALUE param_hash, VA
 
   xfree_model(model);
   xfree_parameter(param);
+
+  RB_GC_GUARD(x_val);
 
   return y_val;
 }

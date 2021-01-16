@@ -27,6 +27,8 @@ int* nary_to_int_vec(VALUE vec_val)
   vec_pt = (int32_t*)na_get_pointer_for_read(vec_val);
   for (i = 0; i < n_elements; i++) { vec[i] = (int)vec_pt[i]; }
 
+  RB_GC_GUARD(vec_val);
+
   return vec;
 }
 
@@ -55,6 +57,8 @@ double* nary_to_dbl_vec(VALUE vec_val)
   vec = ALLOC_N(double, n_elements);
   vec_pt = (double*)na_get_pointer_for_read(vec_val);
   memcpy(vec, vec_pt, n_elements * sizeof(double));
+
+  RB_GC_GUARD(vec_val);
 
   return vec;
 }
@@ -97,6 +101,8 @@ double** nary_to_dbl_mat(VALUE mat_val)
       mat[i][j] = mat_pt[i * n_cols + j];
     }
   }
+
+  RB_GC_GUARD(mat_val);
 
   return mat;
 }
