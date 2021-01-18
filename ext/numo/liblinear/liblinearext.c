@@ -504,6 +504,8 @@ VALUE numo_liblinear_load_model(VALUE self, VALUE filename)
   rb_ary_store(res, 0, param_hash);
   rb_ary_store(res, 1, model_hash);
 
+  RB_GC_GUARD(filename);
+
   return res;
 }
 
@@ -537,6 +539,8 @@ VALUE numo_liblinear_save_model(VALUE self, VALUE filename, VALUE param_hash, VA
     rb_raise(rb_eIOError, "Failed to save file '%s'", filename_);
     return Qfalse;
   }
+
+  RB_GC_GUARD(filename);
 
   return Qtrue;
 }
