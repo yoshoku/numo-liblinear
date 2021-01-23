@@ -3,6 +3,6 @@
 module Numo
   module Liblinear
     # The version of Numo::Liblienar you are using.
-    VERSION = '1.1.1'
+    VERSION = '1.1.2'
   end
 end
