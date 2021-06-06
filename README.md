@@ -148,7 +148,7 @@ Accuracy: 87.9 %
 ## Note
 The hyperparemter of LIBLINEAR is given with Ruby Hash on Numo::Liblinear.
 The hash key of hyperparameter and its meaning match the struct parameter of LIBLINEAR.
-The parameter is detailed in [LIBLINEAR README](https://github.com/cjlin1/liblinear/blob/main/README)
+The parameter is detailed in [LIBLINEAR README](https://github.com/cjlin1/liblinear/blob/master/README)
 
 ```ruby
 param = {
