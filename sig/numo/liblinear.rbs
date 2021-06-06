@@ -1,0 +1,52 @@
+module Numo
+  module Liblinear
+    module SolverType
+      L2R_LR: Integer
+      L2R_L2LOSS_SVC_DUAL: Integer
+      L2R_L2LOSS_SVC: Integer
+      L2R_L1LOSS_SVC_DUAL: Integer
+      MCSVM_CS: Integer
+      L1R_L2LOSS_SVC: Integer
+      L1R_LR: Integer
+      L2R_LR_DUAL: Integer
+      L2R_L2LOSS_SVR: Integer
+      L2R_L2LOSS_SVR_DUAL: Integer
+      L2R_L1LOSS_SVR_DUAL: Integer
+      ONECLASS_SVM: Integer
+    end
+
+    LIBLINEAR_VERSION: Integer
+    VERSION: String
+
+    type model = {
+      nr_class: Integer,
+      nr_feature: Integer,
+      w: Numo::DFloat,
+      label: Numo::Int32,
+      bias: Float,
+      rho: Float
+    }
+
+    type param = {
+      solver_type: Integer?,
+      eps: Float?,
+      C: Float?,
+      nr_weight: Integer?,
+      weight_label: Numo::Int32?,
+      weight: Numo::DFloat?,
+      p: Float?,
+      nu: Float?,
+      verbose: bool?,
+      random_seed: Integer?
+    }
+
+    def self?.cv: (Numo::DFloat x, Numo::DFloat y, param, Integer n_folds) -> Numo::DFloat
+    def self?.train: (Numo::DFloat x, Numo::DFloat y, param) -> model
+    def self?.predict: (Numo::DFloat x, param, model) -> Numo::DFloat
+    def self?.predict_proba: (Numo::DFloat x, param, model) -> Numo::DFloat
+    def self?.decision_function: (Numo::DFloat x, param, model) -> Numo::DFloat
+    def self?.save_model: (String filename, param, model) -> bool
+    def self?.load_model: (String filename) -> [param, model]
+  end
+end
+
