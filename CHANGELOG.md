@@ -1,3 +1,6 @@
+# 1.2.0
+- Add type declaration file: sig/numo/liblinear.rbs
+
 # 1.1.2
 - Add GC guard to model saving and loading methods.
 - Fix size specification to memcpy function.
