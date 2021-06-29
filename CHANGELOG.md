@@ -1,3 +1,6 @@
+# 1.2.1
+- Fix version specifier of runtime dependencies.
+
 # 1.2.0
 - Add type declaration file: sig/numo/liblinear.rbs
 
