@@ -26,12 +26,6 @@ Gem::Specification.new do |spec|
     `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features|sig-deps)/}) }
   end
 
-  submodule_path = `git submodule --quiet foreach pwd`.split($INPUT_RECORD_SEPARATOR).first
-  submodule_relative_path = submodule_path.sub("#{File.expand_path(__dir__)}/", '')
-  liblinear_files = %w[linear.cpp linear.h newton.cpp newton.h
-                       blas/blas.h blas/blasp.h blas/daxpy.c blas/ddot.c blas/dnrm2.c blas/dscal.c]
-  liblinear_files.each { |liblinf| spec.files << "#{submodule_relative_path}/#{liblinf}" }
-
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']

@@ -1,3 +1,0 @@
-[submodule "ext/numo/liblinear/liblinear"]
-	path = ext/numo/liblinear/liblinear
-	url = https://github.com/cjlin1/liblinear
