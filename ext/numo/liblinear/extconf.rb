@@ -22,8 +22,8 @@ end
 
 abort 'libstdc++ is not found.' unless have_library('stdc++')
 
-$srcs = Dir.glob("#{$srcdir}/*.c").map { |path| File.basename(path) }
-$srcs.concat(%w[linear.cpp newton.cpp daxpy.c ddot.c dnrm2.c dscal.c])
+$srcs = Dir.glob("#{$srcdir}/**/*.cpp").map { |path| File.basename(path) }
+$srcs.concat(%w[daxpy.c ddot.c dnrm2.c dscal.c])
 
 $INCFLAGS << " -I$(srcdir)/src"
 $VPATH << "$(srcdir)/src"
