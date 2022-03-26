@@ -1,3 +1,6 @@
+# 2.1.0
+- Update bundled LIBLINEAR to 2.44
+
 # 2.0.0
 - Redesign native extension codes.
 - Change not ot use git submodule for LIBLINEAR codes bundle.
