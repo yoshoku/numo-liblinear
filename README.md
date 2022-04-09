@@ -3,7 +3,7 @@
 [![Build Status](https://github.com/yoshoku/numo-liblinear/workflows/build/badge.svg)](https://github.com/yoshoku/numo-liblinear/actions?query=workflow%3Abuild)
 [![Gem Version](https://badge.fury.io/rb/numo-liblinear.svg)](https://badge.fury.io/rb/numo-liblinear)
 [![BSD 3-Clause License](https://img.shields.io/badge/License-BSD%203--Clause-orange.svg)](https://github.com/yoshoku/numo-liblinear/blob/main/LICENSE.txt)
-[![Documentation](http://img.shields.io/badge/docs-rdoc.info-blue.svg)](https://yoshoku.github.io/numo-liblinear/doc/)
+[![Documentation](https://img.shields.io/badge/docs-rdoc.info-blue.svg)](https://yoshoku.github.io/numo-liblinear/doc/)
 
 Numo::Liblinear is a Ruby gem binding to the [LIBLINEAR](https://www.csie.ntu.edu.tw/~cjlin/liblinear/) library.
 LIBLINEAR is one of the famous libraries for large-scale regularized linear classification and regression.
@@ -171,7 +171,7 @@ param = {
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/yoshoku/numo-liblinear.
-This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](https://contributor-covenant.org) code of conduct.
 
 ## License
 
