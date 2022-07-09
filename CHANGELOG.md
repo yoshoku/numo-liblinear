@@ -1,3 +1,6 @@
+# 2.1.1
+- Refactor codes and configs with RuboCop.
+
 # 2.1.0
 - Update bundled LIBLINEAR to 2.44
 
