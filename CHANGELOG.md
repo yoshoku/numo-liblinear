@@ -1,3 +1,6 @@
+# 2.3.0
+- Update bundled LIBLINEAR to 2.46
+
 # 2.2.1
 - Fix build failure with Xcode 14 and Ruby 3.1.x.
 
