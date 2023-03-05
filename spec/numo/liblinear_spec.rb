@@ -24,7 +24,7 @@ RSpec.describe Numo::Liblinear do
   end
 
   describe 'classification' do
-    let(:dataset) { Marshal.load(File.read("#{__dir__}/../iris.dat")) }
+    let(:dataset) { Marshal.load(File.binread("#{__dir__}/../iris.dat")) }
     let(:x) { dataset[0] }
     let(:y) { dataset[1] }
     let(:x_test) { dataset[2] }
@@ -85,7 +85,7 @@ RSpec.describe Numo::Liblinear do
   end
 
   describe 'regression' do
-    let(:dataset) { Marshal.load(File.read("#{__dir__}/../housing.dat")) }
+    let(:dataset) { Marshal.load(File.binread("#{__dir__}/../housing.dat")) }
     let(:x) { dataset[0] }
     let(:y) { dataset[1] }
     let(:x_test) { dataset[2] }
@@ -121,7 +121,7 @@ RSpec.describe Numo::Liblinear do
   end
 
   describe 'outlier detection' do
-    let(:dataset) { Marshal.load(File.read("#{__dir__}/../iris.dat")) }
+    let(:dataset) { Marshal.load(File.binread("#{__dir__}/../iris.dat")) }
     let(:pos_id) { dataset[1].eq(1).where }
     let(:neg_id) { dataset[1].eq(3).where }
     let(:x_pos) { dataset[0][pos_id, true] }
@@ -151,7 +151,7 @@ RSpec.describe Numo::Liblinear do
   end
 
   describe 'errors' do
-    let(:dataset) { Marshal.load(File.read("#{__dir__}/../iris.dat")) }
+    let(:dataset) { Marshal.load(File.binread("#{__dir__}/../iris.dat")) }
     let(:x) { dataset[0] }
     let(:y) { dataset[1] }
     let(:svm_param) { { solver_type: Numo::Liblinear::SolverType::L2R_L2LOSS_SVC_DUAL, C: 1 } }
