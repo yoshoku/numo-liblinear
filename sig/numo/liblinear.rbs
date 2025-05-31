@@ -36,6 +36,7 @@ module Numo
       weight: Numo::DFloat?,
       p: Float?,
       nu: Float?,
+      w_recalc: bool?,
       verbose: bool?,
       random_seed: Integer?
     }

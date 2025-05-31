@@ -234,6 +234,8 @@ LibLinearParameter* convertHashToLibLinearParameter(VALUE param_hash) {
   el = rb_hash_aref(param_hash, ID2SYM(rb_intern("init_sol")));
   param->init_sol = !NIL_P(el) ? convertNArrayToVectorXd(el) : NULL;
   param->regularize_bias = 1;
+  el = rb_hash_aref(param_hash, ID2SYM(rb_intern("w_recalc")));
+  param->w_recalc = !NIL_P(el) ? (RTEST(el) ? true : false) : false;
   return param;
 }
 
@@ -250,6 +252,7 @@ VALUE convertLibLinearParameterToHash(const LibLinearParameter* const param) {
   rb_hash_aset(param_hash, ID2SYM(rb_intern("p")), DBL2NUM(param->p));
   rb_hash_aset(param_hash, ID2SYM(rb_intern("nu")), DBL2NUM(param->nu));
   rb_hash_aset(param_hash, ID2SYM(rb_intern("init_sol")), Qnil);
+  rb_hash_aset(param_hash, ID2SYM(rb_intern("w_recalc")), param->w_recalc ? Qtrue : Qfalse);
   return param_hash;
 }
 
