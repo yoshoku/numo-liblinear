@@ -1,3 +1,8 @@
+# [[2.4.0](https://github.com/yoshoku/numo-liblinear/compare/v2.3.0...v2.4.0)] - 2025-05-31
+
+- Update bundled LIBLINEAR to 2.49
+  - Add `w_recalc` parameter.
+
 # 2.3.0
 - Update bundled LIBLINEAR to 2.46
 
