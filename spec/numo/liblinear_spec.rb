@@ -47,7 +47,7 @@ RSpec.describe Numo::Liblinear do
 
     it 'calculates decision function with C-SVC', :aggregate_failures do
       df = described_class.decision_function(x_test, svc_param, svc_model)
-      pr = Numo::Int32[*(Array.new(n_samples) { |n| classes[df[n, true].max_index] })]
+      pr = Numo::Int32[*Array.new(n_samples) { |n| classes[df[n, true].max_index] }] # rubocop:disable Lint/RedundantSplatExpansion
       expect(df.class).to eq(Numo::DFloat)
       expect(df.shape[0]).to eq(n_samples)
       expect(df.shape[1]).to eq(n_classes)
@@ -56,7 +56,7 @@ RSpec.describe Numo::Liblinear do
 
     it 'predicts probabilities with Logistic Regression', :aggregate_failures do
       pb = described_class.predict_proba(x_test, logit_param, logit_model)
-      pr = Numo::Int32[*(Array.new(n_samples) { |n| classes[pb[n, true].max_index] })]
+      pr = Numo::Int32[*Array.new(n_samples) { |n| classes[pb[n, true].max_index] }] # rubocop:disable Lint/RedundantSplatExpansion
       expect(pb.class).to eq(Numo::DFloat)
       expect(pb.shape[0]).to eq(n_samples)
       expect(pb.shape[1]).to eq(n_classes)
