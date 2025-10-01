@@ -14,6 +14,8 @@ Note: There are other useful Ruby gems binding to LIBLINEAR:
 [liblinear-ruby](https://github.com/kei500/liblinear-ruby) by Kei Tsuchiya and
 [liblinear-ruby-swig](https://github.com/tomz/liblinear-ruby-swig) by Tom Zeng.
 
+Note: Since v3.0.0, this library uses [Numo::NArray Alternative](https://github.com/yoshoku/numo-narray-alt) instead of Numo::NArray as a dependency.
+
 ## Installation
 Numo::Liblinear bundles LIBLINEAR. There is no need to install LIBLINEAR in advance.
 

@@ -1,3 +1,9 @@
+# [[3.0.0](https://github.com/yoshoku/numo-liblinear/compare/v2.4.0...v3.0.0)] - 2025-10-01
+
+**Breaking chage**
+
+- Change dependency from numo-narray to [numo-narray-alt](https://github.com/yoshoku/numo-narray-alt).
+
 # [[2.4.0](https://github.com/yoshoku/numo-liblinear/compare/v2.3.0...v2.4.0)] - 2025-05-31
 
 - Update bundled LIBLINEAR to 2.49
