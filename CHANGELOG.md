@@ -1,6 +1,10 @@
+# [[3.1.1](https://github.com/yoshoku/numo-liblinear/compare/v3.1.0...v3.1.1)] - 2026-02-17
+
+- Remove unnecessary C++ shared library loading check from native extensions build step.
+
 # [[3.1.0](https://github.com/yoshoku/numo-liblinear/compare/v3.0.1...v3.1.0)] - 2026-02-06
 
-- relax numo-narray-alt version constraint to >= 0.9.10, < 0.11.0.
+- Relax numo-narray-alt version constraint to >= 0.9.10, < 0.11.0.
 
 # [[3.0.1](https://github.com/yoshoku/numo-liblinear/compare/v3.0.0...v3.0.1)] - 2025-11-19
 
@@ -9,7 +13,7 @@
 
 # [[3.0.0](https://github.com/yoshoku/numo-liblinear/compare/v2.4.0...v3.0.0)] - 2025-10-01
 
-**Breaking chage**
+**Breaking change**
 
 - Change dependency from numo-narray to [numo-narray-alt](https://github.com/yoshoku/numo-narray-alt).
 
@@ -35,7 +39,7 @@
 
 # 2.0.0
 - Redesign native extension codes.
-- Change not ot use git submodule for LIBLINEAR codes bundle.
+- Change not to use git submodule for LIBLINEAR codes bundle.
 - Introduce conventional commits.
 
 # 1.2.2
@@ -65,7 +69,7 @@
 There is no need to install LIBLINEAR in advance to use Numo::LIBLINEAR.
 
 # 0.5.0
-- Fix to use LIBLINEAR sparce vector representation for internal processing.
+- Fix to use LIBLINEAR sparse vector representation for internal processing.
 
 # 0.4.0
 - Add verbose parameter to output learning process messages.
