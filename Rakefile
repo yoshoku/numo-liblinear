@@ -13,10 +13,6 @@ if ENV['BUNDLE_WITH'] == 'memcheck'
   end
 end
 
-require 'rubocop/rake_task'
-
-RuboCop::RakeTask.new
-
 require 'rake/extensiontask'
 
 task build: :compile # rubocop:disable Rake/Desc
@@ -31,4 +27,4 @@ Rake::ExtensionTask.new('liblinearext') do |ext|
   ext.lib_dir = 'lib/numo/liblinear'
 end
 
-task default: %i[clobber compile rubocop spec]
+task default: %i[clobber compile spec]
